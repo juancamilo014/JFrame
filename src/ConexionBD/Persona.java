@@ -3,13 +3,15 @@ package ConexionBD;
 
 import java.sql.Connection;
 import java.sql.Date;
+import java.text.SimpleDateFormat;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import javax.swing.JOptionPane;
 
 public class Persona extends javax.swing.JFrame {
-
+    
+    SimpleDateFormat formatofecha = new SimpleDateFormat("yyyy-MM-dd");
     public static final String URL = "jdbc:mysql://localhost:3306/escuela";
     public static final String USERNAME = "root";
     public static final String PASSWORD = "Juanca8313.";
@@ -46,6 +48,7 @@ public class Persona extends javax.swing.JFrame {
     public Persona() {
         initComponents();
         txtId.setVisible(false);
+        txtFecha.setVisible(false);
     }
 
     /**
@@ -69,7 +72,6 @@ public class Persona extends javax.swing.JFrame {
         txtDomicilio = new javax.swing.JTextField();
         txtTelefono = new javax.swing.JTextField();
         txtEmail = new javax.swing.JTextField();
-        txtFecha = new javax.swing.JTextField();
         cbxGenero = new javax.swing.JComboBox<>();
         btnBuscar = new javax.swing.JButton();
         btnGuarda = new javax.swing.JButton();
@@ -77,6 +79,8 @@ public class Persona extends javax.swing.JFrame {
         btnElimina = new javax.swing.JButton();
         btnLimpiar = new javax.swing.JButton();
         txtId = new javax.swing.JTextField();
+        txtFecha = new javax.swing.JTextField();
+        jDateChooser = new com.toedter.calendar.JDateChooser();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -131,13 +135,6 @@ public class Persona extends javax.swing.JFrame {
         txtEmail.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtEmailActionPerformed(evt);
-            }
-        });
-
-        txtFecha.setText("Year-month-day");
-        txtFecha.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtFechaActionPerformed(evt);
             }
         });
 
@@ -202,9 +199,16 @@ public class Persona extends javax.swing.JFrame {
                         .addComponent(jLabel7)))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addComponent(btnModifica)
+                        .addGap(27, 27, 27)
+                        .addComponent(btnElimina)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 30, Short.MAX_VALUE)
+                        .addComponent(btnLimpiar)
+                        .addGap(18, 18, 18))
+                    .addGroup(layout.createSequentialGroup()
                         .addGap(33, 33, 33)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtFecha)
                             .addComponent(txtEmail)
                             .addComponent(cbxGenero, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(txtDomicilio)
@@ -213,18 +217,12 @@ public class Persona extends javax.swing.JFrame {
                                 .addComponent(txtClave, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
                                 .addComponent(txtId))
-                            .addComponent(txtNombre))
+                            .addComponent(txtNombre)
+                            .addComponent(txtFecha)
+                            .addComponent(jDateChooser, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addGap(18, 18, 18)
                         .addComponent(btnBuscar)
-                        .addContainerGap())
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(18, 18, 18)
-                        .addComponent(btnModifica)
-                        .addGap(27, 27, 27)
-                        .addComponent(btnElimina)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 30, Short.MAX_VALUE)
-                        .addComponent(btnLimpiar)
-                        .addGap(18, 18, 18))))
+                        .addContainerGap())))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -246,28 +244,29 @@ public class Persona extends javax.swing.JFrame {
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                                    .addComponent(jLabel2)
-                                                    .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                                .addGap(18, 18, 18)
-                                                .addComponent(jLabel3))
-                                            .addComponent(txtDomicilio, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                            .addComponent(jLabel2)
+                                            .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                                         .addGap(18, 18, 18)
-                                        .addComponent(jLabel4))
-                                    .addComponent(txtTelefono, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addComponent(jLabel3))
+                                    .addComponent(txtDomicilio, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGap(18, 18, 18)
-                                .addComponent(jLabel5))
-                            .addComponent(txtEmail, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(jLabel4))
+                            .addComponent(txtTelefono, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
-                        .addComponent(jLabel6))
-                    .addComponent(txtFecha, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(21, 21, 21)
+                        .addComponent(jLabel5))
+                    .addComponent(txtEmail, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel6)
+                    .addComponent(jDateChooser, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(11, 11, 11)
+                .addComponent(txtFecha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel7)
                     .addComponent(cbxGenero, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 19, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnGuarda)
                     .addComponent(btnModifica)
@@ -299,10 +298,6 @@ public class Persona extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtEmailActionPerformed
 
-    private void txtFechaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtFechaActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtFechaActionPerformed
-
     private void btnLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpiarActionPerformed
         limpiarCajas();
     }//GEN-LAST:event_btnLimpiarActionPerformed
@@ -314,9 +309,13 @@ public class Persona extends javax.swing.JFrame {
     private void btnGuardaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardaActionPerformed
     
         Connection con = null;
+        String pasofecha = "";
         
         try {
-        
+            
+            txtFecha.setText(formatofecha.format(jDateChooser.getDate()));
+            pasofecha = (formatofecha.format(jDateChooser.getDate()));
+
             con = getConnection();
             ps = con.prepareStatement("INSERT INTO persona (clave, nombre, "
                     + "domicilio, telefono, correo_electronico, fecha_nacimiento,"
@@ -326,7 +325,7 @@ public class Persona extends javax.swing.JFrame {
             ps.setString(3, txtDomicilio.getText());
             ps.setString(4, txtTelefono.getText());
             ps.setString(5, txtEmail.getText());
-            ps.setDate(6, Date.valueOf(txtFecha.getText()));
+            ps.setString(6, pasofecha);
             ps.setString(7, cbxGenero.getSelectedItem().toString());
             
             int res = ps.executeUpdate();
@@ -376,6 +375,7 @@ public class Persona extends javax.swing.JFrame {
 
     private void btnModificaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificaActionPerformed
                 Connection con = null;
+                String pasofecha = "";
         
         try {
         
@@ -388,7 +388,7 @@ public class Persona extends javax.swing.JFrame {
             ps.setString(3, txtDomicilio.getText());
             ps.setString(4, txtTelefono.getText());
             ps.setString(5, txtEmail.getText());
-            ps.setDate(6, Date.valueOf(txtFecha.getText()));
+            ps.setString(6, pasofecha);
             ps.setString(7, cbxGenero.getSelectedItem().toString());
             ps.setString(8, txtId.getText());
             
@@ -449,7 +449,7 @@ public class Persona extends javax.swing.JFrame {
         if (Character.isDigit(c)) {
             getToolkit().beep();
             evt.consume();
-            JOptionPane.showMessageDialog(null, "Solo Numero");
+            JOptionPane.showMessageDialog(null, "Solo Letras");
         }
     }//GEN-LAST:event_txtNombreKeyTyped
 
@@ -495,6 +495,7 @@ public class Persona extends javax.swing.JFrame {
     private javax.swing.JButton btnLimpiar;
     private javax.swing.JButton btnModifica;
     private javax.swing.JComboBox<String> cbxGenero;
+    private com.toedter.calendar.JDateChooser jDateChooser;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
